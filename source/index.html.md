@@ -2,10 +2,7 @@
 title: API Reference
 
 language_tabs: # must be one of https://git.io/vQNgJ
-  - shell
-  - ruby
-  - python
-  - javascript
+  - JSON
 
 toc_footers:
   - <a href='#'>Sign Up for a Developer Key</a>
@@ -18,222 +15,272 @@ search: true
 ---
 
 # Introduction
+Welcome to HeartRateSocial.
+HeartRateSocial is a social networking application. Here the matches are found based upon similar daily activities and eating habits.
 
-Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.
+## Headers
+Each request expects these two headers.
 
-We have language bindings in Shell, Ruby, and Python! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
+* Accept: application/json
+* Content-Type: application/json
 
-This example API documentation page was created with [Slate](https://github.com/tripit/slate). Feel free to edit it and use it as a base for your own API's documentation.
 
-# Authentication
+## Authentication
 
-> To authorize, use this code:
+HeartRateSocial uses access keys to allow authentication to the API.
+HeartRateSocial expects for the authentication key to be included in all API requests to the server in a header that looks like the following:
 
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-```
-
-```shell
-# With shell, you can just pass the correct header with each request
-curl "api_endpoint_here"
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-```
-
-> Make sure to replace `meowmeowmeow` with your API key.
-
-Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our [developer portal](http://example.com/developers).
-
-Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:
-
-`Authorization: meowmeowmeow`
+`Authorization: Token token=auth_token`
 
 <aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
+You must replace <code>auth_token</code> with your personal authentication key.
 </aside>
 
-# Kittens
+# User
 
-## Get All Kittens
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
+## Sign up
+```
+ {
+ "user":
+      {
+          "username":"ashish",
+          "email":"ashish+1@headerlabs.com",
+          "password": "Welcome@123"
+      }
+ }
 ```
 
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get()
-```
-
-```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let kittens = api.kittens.get();
-```
-
-> The above command returns JSON structured like this:
+> The above command returns JSON structured like this in case of success:
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
-]
+{
+    "resource": {
+        "id": 2,
+        "email": "ashish+1@headerlabs.com",
+        "username": null,
+        "facebook_id": null,
+        "facebook_token": null,
+        "refresh_token": "iYa1WQuk5_f9Fd04D_Qrrw",
+        "fname": null,
+        "lname": null,
+        "dob": null,
+        "about": null,
+        "gender": null,
+        "occupation": null,
+        "age_range": null,
+        "distance": null,
+        "dating": null
+    },
+    "auth_token": "tvIA4W6k9yHM5l6t2Za6UA"
+}
+```
+> The above command returns JSON structured like this in case of failure:
+
+```
+{
+    "errors": "Email has already been taken"
+}
 ```
 
-This endpoint retrieves all kittens.
+Using this Api users can sign up in the system.
 
 ### HTTP Request
 
-`GET http://example.com/api/kittens`
+`POST http://34.199.98.25/users/sign_up`
 
 ### Query Parameters
 
 Parameter | Default | Description
 --------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+email | YOUR EMAIL | Required
+password | PASSWORD | Required
+
 
 <aside class="success">
-Remember — a happy kitten is an authenticated kitten!
+Remember — Successfully signed up!
 </aside>
 
-## Get a Specific Kitten
 
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get(2)
+## Sign Up through facebook
+```
+ {
+ "user":
+         {
+         "facebook":true,
+         "token": "TOKEN"
+      }
+ }
 ```
 
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```shell
-curl "http://example.com/api/kittens/2"
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.get(2);
-```
-
-> The above command returns JSON structured like this:
+> The above command returns JSON structured like this in case of success:
 
 ```json
 {
-  "id": 2,
-  "name": "Max",
-  "breed": "unknown",
-  "fluffiness": 5,
-  "cuteness": 10
+    "resource": {
+        "id": 2,
+        "email": "ashish+1@headerlabs.com",
+        "username": null,
+        "facebook_id": null,
+        "facebook_token": null,
+        "refresh_token": "iYa1WQuk5_f9Fd04D_Qrrw",
+        "fname": null,
+        "lname": null,
+        "dob": null,
+        "about": null,
+        "gender": null,
+        "occupation": null,
+        "age_range": null,
+        "distance": null,
+        "dating": null
+    },
+    "auth_token": "tvIA4W6k9yHM5l6t2Za6UA"
+}
+```
+> The above command returns JSON structured like this in case of failure:
+
+```
+{
+    "errors": "Email has already been taken"
 }
 ```
 
-This endpoint retrieves a specific kitten.
-
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
+Using this Api users can sign up in the system.
 
 ### HTTP Request
 
-`GET http://example.com/kittens/<ID>`
+`POST http://34.199.98.25/users/sign_up`
+
+### Query Parameters
+
+Parameter | Default | Description
+--------- | ------- | -----------
+facebook | true | Required
+token | FB_TOKEN | Required
+
+
+<aside class="success">
+Remember — Successfully signed in!
+</aside>
+
+
+## Sign-in
+
+```
+ {
+ "user":
+         {
+         "email":"ashish@headerlabs.com",
+         "password": "password"
+      }
+ }
+```
+
+> The above command returns JSON structured like this in case of success:
+
+```json
+{
+    "resource": {
+        "id": 2,
+        "email": "ashish+1@headerlabs.com",
+        "username": null,
+        "facebook_id": null,
+        "facebook_token": null,
+        "refresh_token": "iYa1WQuk5_f9Fd04D_Qrrw",
+        "fname": null,
+        "lname": null,
+        "dob": null,
+        "about": null,
+        "gender": null,
+        "occupation": null,
+        "age_range": null,
+        "distance": null,
+        "dating": null
+    },
+    "auth_token": "tvIA4W6k9yHM5l6t2Za6UA"
+}
+```
+> The above command returns JSON structured like this in case of failure:
+
+```
+{
+    "errors": "Change error message"
+}
+```
+
+Using this Api users can sign-in in the system.
+
+### HTTP Request
+
+`POST http://34.199.98.25/users/sign_in`
+
+### Query Parameters
+
+Parameter | Default | Description
+--------- | ------- | -----------
+email | Email | Required
+password | PASSWORD | Required
+
+
+<aside class="success">
+Remember — Successfully signed in!
+</aside>
+
+
+## Renew auth token
+
+```json
+{
+  "user"
+   {
+     "refresh_token":  "refresh_token"
+   }
+}
+```
+
+> The above command returns JSON structured like this for success:
+
+```json
+{
+    "resource": {
+        "id": 2,
+        "email": "ashish+1@headerlabs.com",
+        "username": null,
+        "facebook_id": null,
+        "facebook_token": null,
+        "refresh_token": "iYa1WQuk5_f9Fd04D_Qrrw",
+        "fname": null,
+        "lname": null,
+        "dob": null,
+        "about": null,
+        "gender": null,
+        "occupation": null,
+        "age_range": null,
+        "distance": null,
+        "dating": null
+    },
+    "auth_token": "tvIA4W6k9yHM5l6t2Za6UA"
+}
+
+```
+
+> The above command returns JSON structured like this for failure:
+
+```json
+{
+    "error":"User not found."
+}
+
+```
+
+This end point needs to be accessed if authentication token is expired.
+
+### HTTP Request
+
+`POST http://34.199.98.25/users/renew_auth_token`
 
 ### URL Parameters
 
 Parameter | Description
 --------- | -----------
-ID | The ID of the kitten to retrieve
-
-## Delete a Specific Kitten
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.delete(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.delete(2)
-```
-
-```shell
-curl "http://example.com/api/kittens/2"
-  -X DELETE
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.delete(2);
-```
-
-> The above command returns JSON structured like this:
-
-```json
-{
-  "id": 2,
-  "deleted" : ":("
-}
-```
-
-This endpoint retrieves a specific kitten.
-
-### HTTP Request
-
-`DELETE http://example.com/kittens/<ID>`
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to delete
+RefreshToken | Refresh token of the user
 
